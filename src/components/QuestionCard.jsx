@@ -2,6 +2,7 @@ import { getOptionClass } from '../lib/parseMarkdown';
 
 export default function QuestionCard({
   question,
+  number,
   mode,
   selection,
   onSelect,
@@ -11,7 +12,7 @@ export default function QuestionCard({
 
   return (
     <div className="question-card" data-qid={id}>
-      <div className="question-title">{text}</div>
+      <div className="question-title"><span className="q-number">{number}.</span> {text}</div>
       <div className="options">
         {options.map((opt, idx) => {
           const cls = getOptionClass(mode, selection, correctIndex, idx, submitted);
@@ -26,7 +27,8 @@ export default function QuestionCard({
                 onSelect(idx);
               }}
             >
-              {opt}
+              <span className="opt-label">{String.fromCharCode(65 + idx)}.</span>
+              <span className="opt-text">{opt}</span>
             </button>
           );
         })}

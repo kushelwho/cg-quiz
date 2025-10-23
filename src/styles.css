@@ -4,6 +4,10 @@
   padding: 16px;
 }
 
+.app h2 {
+  margin: 0 0 12px 0;
+}
+
 .toolbar {
   display: flex;
   gap: 12px;
@@ -43,6 +47,11 @@
   background: white;
   color: #111827;
 }
+.weeks button[aria-pressed="true"] {
+  border-color: #111827;
+  background: #111827;
+  color: white;
+}
 .weeks button[disabled] {
   opacity: 0.5;
   cursor: not-allowed;
@@ -54,25 +63,44 @@
   gap: 16px;
 }
 
+.quiz-header {
+  display: flex;
+  justify-content: flex-end;
+}
+.timer-badge {
+  background: #0ea5e9;
+  color: #ffffff;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-weight: 600;
+}
+
 .question-card {
   border: 1px solid #e5e7eb;
   border-radius: 8px;
   padding: 12px;
 }
-.question-title { font-weight: 600; margin-bottom: 8px; }
+.question-title { font-weight: 600; margin-bottom: 8px; display: flex; gap: 8px; }
+.q-number { color: #6b7280; min-width: 24px; text-align: right; }
 
 .options { display: grid; gap: 8px; }
 .option {
   border: 1px solid #d1d5db;
   border-radius: 6px;
-  padding: 8px 10px;
+  padding: 10px 12px;
   background: white;
+  color: #111827;
   cursor: pointer;
+  display: flex;
+  gap: 10px;
+  align-items: center;
 }
+.opt-label { font-weight: 600; color: #6b7280; width: 20px; text-align: right; }
+.opt-text { flex: 1; text-align: left; }
 .option.selected { border-color: #3b82f6; background: #eff6ff; }
-.option.correct { border-color: #22c55e; background: #ecfdf5; }
-.option.wrong { border-color: #ef4444; background: #fef2f2; }
-.option.disabled { opacity: 0.6; cursor: not-allowed; }
+.option.correct { border-color: #16a34a; background: #86efac; }
+.option.wrong { border-color: #dc2626; background: #fca5a5; }
+.option.disabled { pointer-events: none; cursor: not-allowed; }
 
 .submit-panel { display: flex; gap: 8px; align-items: center; }
 .score { font-weight: 600; }
