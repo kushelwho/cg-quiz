@@ -39,7 +39,10 @@ export function parseMarkdown(md) {
 
     // Detect question start like `1. Question text` possibly bolded
     const qMatch = line.match(/^(\d+)\.\s+(.*)$/);
-    if (qMatch && currentWeek) {
+    if (qMatch) {
+      if (!currentWeek) {
+        currentWeek = { weekNumber: 0, weekTitle: 'All (Flat)', questions: [] };
+      }
       pushQuestionIfValid();
       const questionNumber = qMatch[1];
       const rawText = qMatch[2] || '';
@@ -54,7 +57,7 @@ export function parseMarkdown(md) {
     }
 
     // Detect option lines beginning with `* ` allowing leading spaces
-    const optMatch = rawLine.match(/^\s*\*\s+(.*)$/);
+    const optMatch = rawLine.match(/^\s*[-\*]\s+(.*)$/);
     if (optMatch && currentQuestion) {
       const optRaw = (optMatch[1] || '').trim();
       const isCorrect = /\*\*/.test(optRaw);
