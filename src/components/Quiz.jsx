@@ -47,6 +47,13 @@ export default function Quiz({ weekData, mode }) {
     }, 0);
   }, [submitted, selections, attemptWeek]);
 
+  const answeredCount = useMemo(() => {
+    if (!attemptWeek) return 0;
+    return attemptWeek.questions.reduce((acc, q) => (
+      (selections[q.id] ?? null) != null ? acc + 1 : acc
+    ), 0);
+  }, [attemptWeek, selections]);
+
   function handleSelect(questionId, idx) {
     if (timerStart == null) {
       setTimerStart(Date.now());
@@ -84,8 +91,10 @@ export default function Quiz({ weekData, mode }) {
   return (
     <div className="quiz">
       <div className="quiz-header">
-        <div className="timer-badge" aria-live="polite">
-          ⏱ {formatTime(elapsedMs)}
+        <div className="week-title">Week {weekData.weekNumber}: {weekData.weekTitle}</div>
+        <div className="meta">
+          <div className="progress-badge" title="Answered / Total">{answeredCount}/{total}</div>
+          <div className="timer-badge" aria-live="polite">⏱ {formatTime(elapsedMs)}</div>
         </div>
       </div>
       {attemptWeek.questions.map((q, idx) => (
