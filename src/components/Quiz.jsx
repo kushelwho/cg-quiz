@@ -54,6 +54,26 @@ export default function Quiz({ weekData, mode }) {
     ), 0);
   }, [attemptWeek, selections]);
 
+  // Study mode stats: attempted, correct, incorrect
+  const studyStats = useMemo(() => {
+    if (!attemptWeek || mode !== 'study') return { attempted: 0, correct: 0, incorrect: 0 };
+    let attempted = 0;
+    let correct = 0;
+    let incorrect = 0;
+    attemptWeek.questions.forEach(q => {
+      const sel = selections[q.id] ?? null;
+      if (sel !== null) {
+        attempted++;
+        if (sel === q.correctIndex) {
+          correct++;
+        } else {
+          incorrect++;
+        }
+      }
+    });
+    return { attempted, correct, incorrect };
+  }, [attemptWeek, selections, mode]);
+
   function handleSelect(questionId, idx) {
     if (timerStart == null) {
       setTimerStart(Date.now());
@@ -97,6 +117,22 @@ export default function Quiz({ weekData, mode }) {
           <div className="timer-badge" aria-live="polite">⏱ {formatTime(elapsedMs)}</div>
         </div>
       </div>
+      {mode === 'study' && (
+        <div className="study-stats-sticky">
+          <div className="stat-item">
+            <span className="stat-label">Attempted:</span>
+            <span className="stat-value">{studyStats.attempted}</span>
+          </div>
+          <div className="stat-item stat-correct">
+            <span className="stat-label">Correct:</span>
+            <span className="stat-value">{studyStats.correct}</span>
+          </div>
+          <div className="stat-item stat-incorrect">
+            <span className="stat-label">Incorrect:</span>
+            <span className="stat-value">{studyStats.incorrect}</span>
+          </div>
+        </div>
+      )}
       {attemptWeek.questions.map((q, idx) => (
         <QuestionCard
           key={q.id}
